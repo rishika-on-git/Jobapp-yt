@@ -12,4 +12,6 @@ public interface JobService {
 
     Job getJobById(Long id);
 
+    String deleteJobById(Long id);
+
 }

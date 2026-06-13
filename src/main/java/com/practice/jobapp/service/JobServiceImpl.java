@@ -34,4 +34,15 @@ public class JobServiceImpl implements JobService {
         return null;
     }
 
+    @Override
+    public String deleteJobById(Long id) {
+        for (Job job : jobs) {
+            if (job.getId().equals(id)) {
+                jobs.remove(job);
+                return "Job deleted successfully";
+            }
+        }
+        return null;
+    }
+
 }
