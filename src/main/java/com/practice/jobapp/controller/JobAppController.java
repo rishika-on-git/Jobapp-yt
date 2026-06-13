@@ -2,9 +2,9 @@ package com.practice.jobapp.controller;
 
 
 import com.practice.jobapp.Job;
+import com.practice.jobapp.service.JobService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,21 +28,20 @@ PUT {base_url}/jobs/1
 @RequestMapping("/api/v1/jobs")
 public class JobAppController {
 
-    // We aren't using DB in this stage so we will maintain in memory state
+    private final JobService jobService;
 
-    private List<Job> jobs = new ArrayList<>();
+    public JobAppController(JobService jobService) {
+        this.jobService = jobService;
+    }
 
     @GetMapping()
     public List<Job> getJobs() {
-        return jobs;
+        return jobService.getJobs();
     }
 
     @PostMapping
     public String addJob(@RequestBody Job job) {
-        jobs.add(job);
-        return "Job added successfully" + job.toString();
+        return jobService.addJob(job);
     }
-
-
 
 }
