@@ -44,4 +44,9 @@ public class JobAppController {
         return jobService.addJob(job);
     }
 
+    @GetMapping("/{id}")
+    public Job getJobById(@PathVariable Long id) {
+        return jobService.getJobById(id);
+    }
+
 }

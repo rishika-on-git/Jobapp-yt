@@ -10,4 +10,6 @@ public interface JobService {
 
     String addJob(Job job);
 
+    Job getJobById(Long id);
+
 }
