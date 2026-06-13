@@ -66,4 +66,13 @@ public class JobAppController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateJobById(@RequestBody Job job , @PathVariable Long id) {
+        String response = jobService.updateJobById(job , id);
+        if(response == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 }
