@@ -3,6 +3,8 @@ package com.practice.jobapp.controller;
 
 import com.practice.jobapp.Job;
 import com.practice.jobapp.service.JobService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,18 +37,24 @@ public class JobAppController {
     }
 
     @GetMapping()
-    public List<Job> getJobs() {
-        return jobService.getJobs();
+    public ResponseEntity<List<Job>> getJobs() {
+        List<Job> jobs = jobService.getJobs();
+        return new ResponseEntity<>(jobs , HttpStatus.OK);
     }
 
     @PostMapping
-    public String addJob(@RequestBody Job job) {
-        return jobService.addJob(job);
+    public ResponseEntity<String> addJob(@RequestBody Job job) {
+        String result = jobService.addJob(job);
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public Job getJobById(@PathVariable Long id) {
-        return jobService.getJobById(id);
+    public ResponseEntity<Job> getJobById(@PathVariable Long id) {
+        Job job = jobService.getJobById(id);
+        if(job == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(job, HttpStatus.OK);
     }
 
 }
