@@ -1,66 +1,72 @@
 package com.practice.jobapp.service;
 
-import com.practice.jobapp.Job;
+import com.practice.jobapp.entity.Job;
+import com.practice.jobapp.repository.JobRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class JobServiceImpl implements JobService {
 
-    private List<Job> jobs = new ArrayList<Job>();
-    private Long nextId = 1L;
+    private final JobRepository jobRepository;
+    //This dependency should never change after construction.
+
+    public JobServiceImpl(JobRepository jobRepository) {
+        this.jobRepository = jobRepository;
+    }
 
     @Override
     public List<Job> getJobs() {
-        return jobs;
+        return jobRepository.findAll();
     }
 
     @Override
     public String addJob(Job job) {
-        job.setId(nextId++);
-        jobs.add(job);
-        return "Job added successfully" + job.toString();
+        Job savedJob = jobRepository.save(job);
+
+        return "Job added successfully with id " + savedJob.getId();
     }
 
     @Override
     public Job getJobById(Long id) {
-        for (Job job : jobs) {
-            if (job.getId().equals(id)) {
-                return job;
-            }
+        Optional<Job> result = jobRepository.findById(id);
+        if (result.isPresent()) {
+            return result.get();
         }
-        return null;
+        throw new RuntimeException("Job not found");
     }
 
     @Override
     public String deleteJobById(Long id) {
-        for (Job job : jobs) {
-            if (job.getId().equals(id)) {
-                jobs.remove(job);
-                return "Job deleted successfully";
-            }
+        if (jobRepository.existsById(id)) {
+            jobRepository.deleteById(id);
+            return "Job deleted successfully";
         }
-        return null;
+        return "Job not found";
     }
 
     @Override
     public String updateJobById(Job job, Long id) {
 
-        for (Job job1 : jobs) {
-            if (job1.getId().equals(id)) {
-                job1.setDescription(job.getDescription());
-                job1.setTitle(job.getTitle());
-                job1.setLocation(job.getLocation());
-                job1.setMinSalary(job.getMinSalary());
-                job1.setMaxSalary(job.getMaxSalary());
-
-                return "Job updated successfully" + job1.toString();
-            }
+        Optional<Job> result = jobRepository.findById(id);
+        if (result.isEmpty()) {
+            return "Job not found";
         }
 
-        return null;
+        Job existingJob = result.get();
+
+        existingJob.setTitle(job.getTitle());
+        existingJob.setDescription(job.getDescription());
+        existingJob.setLocation(job.getLocation());
+        existingJob.setMinSalary(job.getMinSalary());
+        existingJob.setMaxSalary(job.getMaxSalary());
+
+        jobRepository.save(existingJob);
+
+        return "Job updated successfully";
+
     }
 
 }

@@ -1,6 +1,6 @@
 package com.practice.jobapp.service;
 
-import com.practice.jobapp.Job;
+import com.practice.jobapp.entity.Job;
 
 import java.util.List;
 

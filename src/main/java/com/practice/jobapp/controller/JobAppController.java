@@ -1,7 +1,7 @@
 package com.practice.jobapp.controller;
 
 
-import com.practice.jobapp.Job;
+import com.practice.jobapp.entity.Job;
 import com.practice.jobapp.service.JobService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
