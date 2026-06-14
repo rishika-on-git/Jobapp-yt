@@ -20,8 +20,9 @@ public class Job {
     private double maxSalary;
     private String location;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "company_id", nullable = false)
     private Company company;
-    //now every job row will store a company_id
+    //now every job row will store a company_id column which cannot be null. So every job must have a company
 
 }
