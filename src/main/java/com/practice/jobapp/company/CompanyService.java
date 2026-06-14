@@ -6,4 +6,6 @@ public interface CompanyService {
 
     List<Company> getAllCompanies();
 
+    Company updateCompanyById(Long id, Company company);
+
 }
