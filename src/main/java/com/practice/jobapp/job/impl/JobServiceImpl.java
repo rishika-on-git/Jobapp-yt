@@ -24,10 +24,8 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public String addJob(Job job) {
-        Job savedJob = jobRepository.save(job);
-
-        return "Job added successfully with id " + savedJob.getId();
+    public Job addJob(Job job) {
+        return jobRepository.save(job);
     }
 
     @Override
@@ -40,20 +38,21 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public String deleteJobById(Long id) {
-        if (jobRepository.existsById(id)) {
-            jobRepository.deleteById(id);
-            return "Job deleted successfully";
+    public void deleteJobById(Long id) {
+
+        if (!jobRepository.existsById(id)) {
+            throw new RuntimeException("Job not found");
         }
-        return "Job not found";
+        jobRepository.deleteById(id);
     }
 
     @Override
-    public String updateJobById(Job job, Long id) {
+    public Job updateJobById(Job job, Long id) {
 
         Optional<Job> result = jobRepository.findById(id);
+
         if (result.isEmpty()) {
-            return "Job not found";
+            throw new RuntimeException("Job not found");
         }
 
         Job existingJob = result.get();
@@ -64,10 +63,7 @@ public class JobServiceImpl implements JobService {
         existingJob.setMinSalary(job.getMinSalary());
         existingJob.setMaxSalary(job.getMaxSalary());
 
-        jobRepository.save(existingJob);
-
-        return "Job updated successfully";
-
+        return jobRepository.save(existingJob);
     }
 
 }

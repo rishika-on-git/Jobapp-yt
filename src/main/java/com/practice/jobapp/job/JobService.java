@@ -6,12 +6,12 @@ public interface JobService {
 
     List<Job> getJobs();
 
-    String addJob(Job job);
+    Job addJob(Job job);
 
     Job getJobById(Long id);
 
-    String deleteJobById(Long id);
+    void deleteJobById(Long id);
 
-    String updateJobById(Job job, Long id);
+    Job updateJobById(Job job, Long id);
 
 }
