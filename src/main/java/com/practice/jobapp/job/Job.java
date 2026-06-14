@@ -1,4 +1,4 @@
-package com.practice.jobapp.entity;
+package com.practice.jobapp.job;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

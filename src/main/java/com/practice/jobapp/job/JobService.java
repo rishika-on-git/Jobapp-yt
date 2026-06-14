@@ -1,6 +1,4 @@
-package com.practice.jobapp.service;
-
-import com.practice.jobapp.entity.Job;
+package com.practice.jobapp.job;
 
 import java.util.List;
 

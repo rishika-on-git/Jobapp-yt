@@ -1,7 +1,8 @@
-package com.practice.jobapp.service;
+package com.practice.jobapp.job.impl;
 
-import com.practice.jobapp.entity.Job;
-import com.practice.jobapp.repository.JobRepository;
+import com.practice.jobapp.job.Job;
+import com.practice.jobapp.job.JobRepository;
+import com.practice.jobapp.job.JobService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

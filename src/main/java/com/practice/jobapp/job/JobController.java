@@ -1,8 +1,6 @@
-package com.practice.jobapp.controller;
+package com.practice.jobapp.job;
 
 
-import com.practice.jobapp.entity.Job;
-import com.practice.jobapp.service.JobService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,11 +26,11 @@ PUT {base_url}/jobs/1
 
 @RestController
 @RequestMapping("/api/v1/jobs")
-public class JobAppController {
+public class JobController {
 
     private final JobService jobService;
 
-    public JobAppController(JobService jobService) {
+    public JobController(JobService jobService) {
         this.jobService = jobService;
     }
 
