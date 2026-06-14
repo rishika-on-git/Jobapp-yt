@@ -39,7 +39,7 @@ public class JobAppController {
     @GetMapping()
     public ResponseEntity<List<Job>> getJobs() {
         List<Job> jobs = jobService.getJobs();
-        return new ResponseEntity<>(jobs , HttpStatus.OK);
+        return new ResponseEntity<>(jobs, HttpStatus.OK);
     }
 
     @PostMapping
@@ -51,7 +51,7 @@ public class JobAppController {
     @GetMapping("/{id}")
     public ResponseEntity<Job> getJobById(@PathVariable Long id) {
         Job job = jobService.getJobById(id);
-        if(job == null) {
+        if (job == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(job, HttpStatus.OK);
@@ -60,16 +60,16 @@ public class JobAppController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteJobById(@PathVariable Long id) {
         String response = jobService.deleteJobById(id);
-        if(response == null) {
+        if (response == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateJobById(@RequestBody Job job , @PathVariable Long id) {
-        String response = jobService.updateJobById(job , id);
-        if(response == null) {
+    public ResponseEntity<String> updateJobById(@RequestBody Job job, @PathVariable Long id) {
+        String response = jobService.updateJobById(job, id);
+        if (response == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
