@@ -1,6 +1,8 @@
 package com.practice.jobapp.job;
 
 
+import com.practice.jobapp.job.dto.request.CreateJobRequest;
+import com.practice.jobapp.job.dto.response.JobResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,20 +37,20 @@ public class JobController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Job>> getJobs() {
-        List<Job> jobs = jobService.getJobs();
+    public ResponseEntity<List<JobResponse>> getJobs() {
+        List<JobResponse> jobs = jobService.getJobs();
         return new ResponseEntity<>(jobs, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Job> addJob(@RequestBody Job job) {
-        Job result = jobService.addJob(job);
+    public ResponseEntity<JobResponse> addJob(@RequestBody CreateJobRequest job) {
+        JobResponse result = jobService.addJob(job);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Job> getJobById(@PathVariable Long id) {
-        Job job = jobService.getJobById(id);
+    public ResponseEntity<JobResponse> getJobById(@PathVariable Long id) {
+        JobResponse job = jobService.getJobById(id);
         if (job == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -64,8 +66,8 @@ public class JobController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Job> updateJobById(@RequestBody Job job, @PathVariable Long id) {
-        Job updatedJob = jobService.updateJobById(job, id);
+    public ResponseEntity<JobResponse> updateJobById(@RequestBody CreateJobRequest job, @PathVariable Long id) {
+        JobResponse updatedJob = jobService.updateJobById(job, id);
 
         if (updatedJob == null) {
             return ResponseEntity.notFound().build();

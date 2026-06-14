@@ -3,6 +3,9 @@ package com.practice.jobapp.job.impl;
 import com.practice.jobapp.job.Job;
 import com.practice.jobapp.job.JobRepository;
 import com.practice.jobapp.job.JobService;
+import com.practice.jobapp.job.dto.request.CreateJobRequest;
+import com.practice.jobapp.job.dto.response.JobResponse;
+import com.practice.jobapp.job.mapper.JobMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,28 +15,39 @@ import java.util.Optional;
 public class JobServiceImpl implements JobService {
 
     private final JobRepository jobRepository;
-    //This dependency should never change after construction.
 
     public JobServiceImpl(JobRepository jobRepository) {
         this.jobRepository = jobRepository;
     }
 
     @Override
-    public List<Job> getJobs() {
-        return jobRepository.findAll();
+    public List<JobResponse> getJobs() {
+
+        return jobRepository.findAll()
+                .stream()
+                .map(JobMapper::toResponse)
+                .toList();
     }
 
     @Override
-    public Job addJob(Job job) {
-        return jobRepository.save(job);
+    public JobResponse addJob(CreateJobRequest request) {
+
+        Job entity = JobMapper.toEntity(request);
+
+        Job savedJob = jobRepository.save(entity);
+
+        return JobMapper.toResponse(savedJob);
     }
 
     @Override
-    public Job getJobById(Long id) {
+    public JobResponse getJobById(Long id) {
+
         Optional<Job> result = jobRepository.findById(id);
+
         if (result.isPresent()) {
-            return result.get();
+            return JobMapper.toResponse(result.get());
         }
+
         throw new RuntimeException("Job not found");
     }
 
@@ -43,11 +57,12 @@ public class JobServiceImpl implements JobService {
         if (!jobRepository.existsById(id)) {
             throw new RuntimeException("Job not found");
         }
+
         jobRepository.deleteById(id);
     }
 
     @Override
-    public Job updateJobById(Job job, Long id) {
+    public JobResponse updateJobById(CreateJobRequest request, Long id) {
 
         Optional<Job> result = jobRepository.findById(id);
 
@@ -57,13 +72,14 @@ public class JobServiceImpl implements JobService {
 
         Job existingJob = result.get();
 
-        existingJob.setTitle(job.getTitle());
-        existingJob.setDescription(job.getDescription());
-        existingJob.setLocation(job.getLocation());
-        existingJob.setMinSalary(job.getMinSalary());
-        existingJob.setMaxSalary(job.getMaxSalary());
+        existingJob.setTitle(request.getTitle());
+        existingJob.setDescription(request.getDescription());
+        existingJob.setLocation(request.getLocation());
+        existingJob.setMinSalary(request.getMinSalary());
+        existingJob.setMaxSalary(request.getMaxSalary());
 
-        return jobRepository.save(existingJob);
+        Job updatedJob = jobRepository.save(existingJob);
+
+        return JobMapper.toResponse(updatedJob);
     }
-
 }

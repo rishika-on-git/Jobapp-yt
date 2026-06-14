@@ -1,17 +1,20 @@
 package com.practice.jobapp.job;
 
+import com.practice.jobapp.job.dto.request.CreateJobRequest;
+import com.practice.jobapp.job.dto.response.JobResponse;
+
 import java.util.List;
 
 public interface JobService {
 
-    List<Job> getJobs();
+    List<JobResponse> getJobs();
 
-    Job addJob(Job job);
+    JobResponse addJob(CreateJobRequest job);
 
-    Job getJobById(Long id);
+    JobResponse getJobById(Long id);
 
     void deleteJobById(Long id);
 
-    Job updateJobById(Job job, Long id);
+    JobResponse updateJobById(CreateJobRequest job, Long id);
 
 }
