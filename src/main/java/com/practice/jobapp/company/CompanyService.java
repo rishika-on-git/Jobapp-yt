@@ -1,11 +1,14 @@
 package com.practice.jobapp.company;
 
+import com.practice.jobapp.company.dto.request.CreateCompanyRequest;
+import com.practice.jobapp.company.dto.response.CompanyResponse;
+
 import java.util.List;
 
 public interface CompanyService {
 
-    List<Company> getAllCompanies();
+    List<CompanyResponse> getAllCompanies();
 
-    Company updateCompanyById(Long id, Company company);
+    CompanyResponse updateCompanyById(Long id, CreateCompanyRequest company);
 
 }

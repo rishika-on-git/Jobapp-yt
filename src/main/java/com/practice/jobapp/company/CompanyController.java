@@ -1,6 +1,7 @@
 package com.practice.jobapp.company;
 
-import org.springframework.http.HttpStatus;
+import com.practice.jobapp.company.dto.request.CreateCompanyRequest;
+import com.practice.jobapp.company.dto.response.CompanyResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,22 +17,21 @@ public class CompanyController {
         this.companyService = companyService;
     }
 
-    @GetMapping()
-    public ResponseEntity<List<Company>> getCompanies() {
-        List<Company> companies = companyService.getAllCompanies();
-        return new ResponseEntity<>(companies, HttpStatus.OK);
+    @GetMapping
+    public ResponseEntity<List<CompanyResponse>> getCompanies() {
+
+        List<CompanyResponse> companies = companyService.getAllCompanies();
+
+        return ResponseEntity.ok(companies);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Company> updateCompany(@PathVariable Long id, @RequestBody Company company) {
+    public ResponseEntity<CompanyResponse> updateCompany(
+            @PathVariable Long id,
+            @RequestBody CreateCompanyRequest request) {
 
-        Company updatedCompany = companyService.updateCompanyById(id, company);
-
-        if(updatedCompany == null) {
-            return ResponseEntity.notFound().build();
-        }
+        CompanyResponse updatedCompany = companyService.updateCompanyById(id, request);
 
         return ResponseEntity.ok(updatedCompany);
     }
-
 }
