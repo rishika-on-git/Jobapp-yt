@@ -1,5 +1,7 @@
 package com.practice.jobapp.job.impl;
 
+import com.practice.jobapp.company.Company;
+import com.practice.jobapp.company.CompanyRepository;
 import com.practice.jobapp.job.Job;
 import com.practice.jobapp.job.JobRepository;
 import com.practice.jobapp.job.JobService;
@@ -15,9 +17,11 @@ import java.util.Optional;
 public class JobServiceImpl implements JobService {
 
     private final JobRepository jobRepository;
+    private final CompanyRepository companyRepository;
 
-    public JobServiceImpl(JobRepository jobRepository) {
+    public JobServiceImpl(JobRepository jobRepository, CompanyRepository companyRepository) {
         this.jobRepository = jobRepository;
+        this.companyRepository = companyRepository;
     }
 
     @Override
@@ -32,10 +36,14 @@ public class JobServiceImpl implements JobService {
     @Override
     public JobResponse addJob(CreateJobRequest request) {
 
-        Job entity = JobMapper.toEntity(request);
+        Company company = companyRepository.findById(request.getCompanyId())
+                        .orElseThrow(() -> new RuntimeException("Company not found"));
 
-        Job savedJob = jobRepository.save(entity);
+        Job job = JobMapper.toEntity(request);
 
+        job.setCompany(company);
+
+        Job savedJob = jobRepository.save(job);
         return JobMapper.toResponse(savedJob);
     }
 
@@ -64,19 +72,20 @@ public class JobServiceImpl implements JobService {
     @Override
     public JobResponse updateJobById(CreateJobRequest request, Long id) {
 
-        Optional<Job> result = jobRepository.findById(id);
+        Job existingJob = jobRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Job not found"));
 
-        if (result.isEmpty()) {
-            throw new RuntimeException("Job not found");
-        }
-
-        Job existingJob = result.get();
+        Company company = companyRepository.findById(request.getCompanyId())
+                .orElseThrow(() -> new RuntimeException("Company not found"));
 
         existingJob.setTitle(request.getTitle());
         existingJob.setDescription(request.getDescription());
         existingJob.setLocation(request.getLocation());
         existingJob.setMinSalary(request.getMinSalary());
         existingJob.setMaxSalary(request.getMaxSalary());
+
+        existingJob.setCompany(company);
 
         Job updatedJob = jobRepository.save(existingJob);
 

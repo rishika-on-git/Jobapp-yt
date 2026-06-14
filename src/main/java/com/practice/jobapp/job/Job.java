@@ -1,9 +1,7 @@
 package com.practice.jobapp.job;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.practice.jobapp.company.Company;
+import jakarta.persistence.*;
 import lombok.*;
 
 @AllArgsConstructor
@@ -21,5 +19,9 @@ public class Job {
     private double minSalary;
     private double maxSalary;
     private String location;
+
+    @ManyToOne
+    private Company company;
+    //now every job row will store a company_id
 
 }

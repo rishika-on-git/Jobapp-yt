@@ -15,4 +15,5 @@ public class CreateJobRequest {
     private double minSalary;
     private double maxSalary;
     private String location;
+    private Long companyId;
 }

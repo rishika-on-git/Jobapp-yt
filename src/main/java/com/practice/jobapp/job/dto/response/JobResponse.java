@@ -16,4 +16,7 @@ public class JobResponse {
     private double minSalary;
     private double maxSalary;
     private String location;
+
+    private Long companyId;
+    private String companyName;
 }

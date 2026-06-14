@@ -65,6 +65,7 @@ public class JobController {
         return ResponseEntity.noContent().build();
     }
 
+    //Update the job details AND also the company it is associated with.
     @PutMapping("/{id}")
     public ResponseEntity<JobResponse> updateJobById(@RequestBody CreateJobRequest job, @PathVariable Long id) {
         JobResponse updatedJob = jobService.updateJobById(job, id);

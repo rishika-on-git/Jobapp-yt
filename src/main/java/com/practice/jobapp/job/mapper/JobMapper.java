@@ -29,6 +29,8 @@ public class JobMapper {
         response.setLocation(job.getLocation());
         response.setMinSalary(job.getMinSalary());
         response.setMaxSalary(job.getMaxSalary());
+        response.setCompanyId(job.getCompany().getId());
+        response.setCompanyName(job.getCompany().getName());
 
         return response;
     }

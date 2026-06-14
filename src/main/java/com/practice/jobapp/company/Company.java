@@ -21,7 +21,7 @@ public class Company {
     private String name;
     private String description;
 
-    @OneToMany
+    @OneToMany(mappedBy = "company")
     //One company can have many jobs
     //so for each company id we can have multiple jobs in DB
     private List<Job> jobs;
